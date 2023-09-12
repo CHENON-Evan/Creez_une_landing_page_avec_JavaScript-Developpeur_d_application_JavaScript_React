@@ -81,8 +81,6 @@ function isFormValid() {
   );
 }
 
-//
-
 function handleSubmit(event) {
   event.preventDefault();
 
