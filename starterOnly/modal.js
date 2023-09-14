@@ -11,7 +11,6 @@ function editNav() {
 
 const modalbg = document.querySelector('.bground');
 const modalBtn = document.querySelectorAll('.modal-btn');
-const formData = document.querySelectorAll('.formData');
 const closeModalBtn = document.querySelector('.close');
 const firstName = document.querySelector('#first');
 const lastName = document.querySelector('#last');
@@ -21,6 +20,7 @@ const quantity = document.querySelector('#quantity');
 const locations = document.querySelectorAll('input[type="radio"]');
 const conditionAccepted = document.querySelector('#checkbox1');
 const form = document.querySelector('form');
+let errorMessage;
 
 // Launch Close and Submit event
 
@@ -40,51 +40,116 @@ function closeModal() {
   modalbg.style.display = 'none';
 }
 
-// Check Form is Valid
+// Check The Validity Of The Form
 
 function isFormValid() {
-  // Check Fist and Last Name have two characters
-  const firstNameValue = isValidName(firstName.value);
-  const lastNameValue = isValidName(lastName.value);
+  let isValid = true;
 
-  function isValidName(name) {
-    const trimmedName = name.trim();
-    return trimmedName.length === 2;
+  if (!firstName.value || firstName.value.length < 2) {
+    displayErrorMessage(
+      firstName,
+      'Veuillez entrer 2 caractères ou plus pour le champ du prénom.'
+    );
+    isValid = false;
+  } else {
+    clearErrorMessage(firstName);
   }
 
-  // Check Email is Valid
+  if (!lastName.value || lastName.value.length < 2) {
+    displayErrorMessage(
+      lastName,
+      'Veuillez entrer 2 caractères ou plus pour le champ du nom.'
+    );
+    isValid = false;
+  } else {
+    clearErrorMessage(lastName);
+  }
 
-  const emailValue = isValidEmail(email.value);
   function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 
-  // Check Birthdate Quantity and Location is not empty
+  if (!email.value || !isValidEmail(email.value)) {
+    displayErrorMessage(email, 'Veuillez entrer une adresse mail valide.');
+    isValid = false;
+  } else {
+    clearErrorMessage(email);
+  }
 
-  const birthdateValue = birthdate.value.trim() !== '';
-  const quantityValue = quantity.value.trim() !== '';
-  const locationsValue = Array.from(locations).some(
+  function isValidBirthdate(input) {
+    if (input.value.trim() === '') {
+      return false;
+    }
+    return true;
+  }
+
+  if (!isValidBirthdate(birthdate)) {
+    displayErrorMessage(birthdate, 'Veuillez entrer une date de naissance.');
+    isValid = false;
+  } else {
+    clearErrorMessage(birthdate);
+  }
+
+  function isValidQuantity(quantity) {
+    const quantityValue = parseInt(quantity.value);
+    return !isNaN(quantityValue) && quantityValue > -1 && quantityValue < 100;
+  }
+
+  if (!isValidQuantity(quantity)) {
+    displayErrorMessage(quantity, 'Veuillez entrer une quantité valide.');
+    isValid = false;
+  } else {
+    clearErrorMessage(quantity);
+  }
+
+  const locationsChecked = Array.from(locations).some(
     (location) => location.checked
   );
 
-  const conditionValue = conditionAccepted.checked;
+  if (!locationsChecked) {
+    displayErrorMessage(locations[0], 'Vous devez choisir une option.');
+    isValid = false;
+  } else {
+    clearErrorMessage(locations[0]);
+  }
 
-  return (
-    firstNameValue &&
-    lastNameValue &&
-    emailValue &&
-    birthdateValue &&
-    quantityValue &&
-    locationsValue &&
-    conditionValue
-  );
+  if (!conditionAccepted.checked) {
+    displayErrorMessage(
+      conditionAccepted,
+      'Vous devez accepter les conditions pour soumettre le formulaire.'
+    );
+    isValid = false;
+  } else {
+    clearErrorMessage(conditionAccepted);
+  }
+  return isValid;
 }
+
+// Display Error Message
+
+function displayErrorMessage(input, errorMessage) {
+  const parent = input.parentElement;
+  parent.setAttribute('data-error', errorMessage);
+  parent.setAttribute('data-error-visible', 'true');
+}
+
+// Clear Error Message
+
+function clearErrorMessage(input) {
+  const parent = input.parentElement;
+  parent.removeAttribute('data-error');
+  parent.removeAttribute('data-error-visible');
+}
+
+
+
+// Manage The Sending Of The Form
 
 function handleSubmit(event) {
   event.preventDefault();
-
   if (isFormValid()) {
+
     closeModal();
   }
 }
