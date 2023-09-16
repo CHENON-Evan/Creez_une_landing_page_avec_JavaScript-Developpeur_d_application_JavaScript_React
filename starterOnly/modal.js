@@ -20,24 +20,50 @@ const quantity = document.querySelector('#quantity');
 const locations = document.querySelectorAll('input[type="radio"]');
 const conditionAccepted = document.querySelector('#checkbox1');
 const form = document.querySelector('form');
-let errorMessage;
+const modalBody = document.querySelector('.modal-body');
+const validMessage = document.querySelector('.valid-message');
 
 // Launch Close and Submit event
 
 modalBtn.forEach((btn) => btn.addEventListener('click', launchModal));
 closeModalBtn.addEventListener('click', closeModal);
-form.addEventListener('submit', handleSubmit);
 
-// launch modal form
+// Launch Modal Form
 
 function launchModal() {
   modalbg.style.display = 'block';
+  modalBody.style.display = 'block';
+  validMessage.style.display = 'none';
 }
 
-// Close modal form
+// Close And Clear Input Values And All Error Messages Modal Form
 
 function closeModal() {
   modalbg.style.display = 'none';
+  clearInputValues();
+  clearAllErrorMessages();
+}
+
+// Clear Input Values
+
+function clearInputValues() {
+  firstName.value = '';
+  lastName.value = '';
+  email.value = '';
+  birthdate.value = '';
+  quantity.value = '';
+  locations.forEach((location) => (location.checked = false));
+  conditionAccepted.checked = false;
+}
+
+// Clear All Error Messsages
+
+function clearAllErrorMessages() {
+  const errorElements = document.querySelectorAll('[data-error]');
+  errorElements.forEach((element) => {
+    element.removeAttribute('data-error');
+    element.removeAttribute('data-error-visible');
+  });
 }
 
 // Check The Validity Of The Form
@@ -142,14 +168,18 @@ function clearErrorMessage(input) {
   parent.removeAttribute('data-error-visible');
 }
 
+//
 
+function showConfirmation() {
+  modalBody.style.display = 'none';
+  validMessage.style.display = 'block';
+}
 
 // Manage The Sending Of The Form
 
-function handleSubmit(event) {
-  event.preventDefault();
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
   if (isFormValid()) {
-
-    closeModal();
+    showConfirmation();
   }
-}
+});

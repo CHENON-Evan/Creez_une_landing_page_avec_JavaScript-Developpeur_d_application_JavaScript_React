@@ -63,15 +63,15 @@
           <form name="reserve" action="index.html" method="get">
             <div class="formData">
               <label for="first">Prénom</label><br>
-              <input class="text-control" type="text" id="first" name="first" /><br>
+              <input class="text-control" type="text" id="first" name="first" value="aa" /><br>
             </div>
             <div class="formData">
               <label for="last">Nom</label><br>
-              <input class="text-control" type="text" id="last" name="last" /><br>
+              <input class="text-control" type="text" id="last" name="last" value="aa" /><br>
             </div>
             <div class="formData">
               <label for="email">E-mail</label><br>
-              <input class="text-control" type="email" id="email" name="email" /><br>
+              <input class="text-control" type="email" id="email" name="email" value="aaa@aaa.aa" /><br>
             </div>
             <div class="formData">
               <label for="birthdate">Date de naissance</label><br>
@@ -79,11 +79,11 @@
             </div>
             <div class="formData">
               <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
-              <input type="number" class="text-control" id="quantity" name="quantity" />
+              <input type="number" class="text-control" id="quantity" name="quantity" value="1" />
             </div>
             <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
             <div class="formData">
-              <input class="checkbox-input" type="radio" id="location1" name="location" value="New York" />
+              <input class="checkbox-input" type="radio" id="location1" name="location" value="New York" checked />
               <label class="checkbox-label" for="location1">
                 <span class="checkbox-icon"></span>
                 New York</label>
@@ -125,6 +125,14 @@
             </div>
             <input class=" button btn-submit" type="submit" value="C'est parti" />
           </form>
+        </div>
+        <div class="valid-message">
+          <p>
+            Merci ! Votre réservation a été reçue.
+          </p>
+          <button class="btn-close" onclick="closeModal()" class="button">
+            Fermer
+          </button>
         </div>
       </div>
     </div>

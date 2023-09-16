@@ -190,6 +190,25 @@ main {
   margin: 15px auto;
 }
 
+.valid-message {
+  min-height: 766px;
+}
+
+.valid-message p {
+  max-width: 260px;
+  text-align: center;
+  padding-bottom: 20px;
+  margin: 0px auto;
+  padding-top: 326px;
+  font-size: 32px;
+}
+
+.valid-message .btn-close {
+  position: absolute;
+  top: 700px;
+  margin: 0 142px;
+}
+
 label {
   font-family: var(--font-default);
   font-size: 17px;
@@ -217,7 +236,6 @@ input {
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
-  text-align: right;
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
@@ -324,7 +342,8 @@ input[data-error]::after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
   margin: 0 auto;
